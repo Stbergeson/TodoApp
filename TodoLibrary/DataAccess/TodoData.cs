@@ -14,7 +14,7 @@ public class TodoData : ITodoData
     public Task<List<TodoModel>> GetAllAssigned(int assignedTo)
     {
         return _sql.LoadData<TodoModel, dynamic>(
-            "dbo.spTodo_GetAllAssigned",
+            "dbo.spTodos_GetAllAssigned",
             new { AssignedTo = assignedTo },
             "Default");
     }
@@ -22,7 +22,7 @@ public class TodoData : ITodoData
     public async Task<TodoModel?> GetOneAssigned(int assignedTo, int todoId)
     {
         var results = await _sql.LoadData<TodoModel, dynamic>(
-            "dbo.spTodo_GetOneAssigned",
+            "dbo.spTodos_GetOneAssigned",
             new { AssignedTo = assignedTo, TodoId = todoId },
             "Default");
 
@@ -32,7 +32,7 @@ public class TodoData : ITodoData
     public async Task<TodoModel?> Create(int assignedTo, string task)
     {
         var results = await _sql.LoadData<TodoModel, dynamic>(
-            "dbo.spTodo_Create",
+            "dbo.spTodos_Create",
             new { AssignedTo = assignedTo, Task = task },
             "Default");
 
@@ -42,7 +42,7 @@ public class TodoData : ITodoData
     public Task UpdateTask(int assignedTo, int todoId, string task)
     {
         return _sql.SaveData<dynamic>(
-            "dbo.spTodo_UpdateTask",
+            "dbo.spTodos_UpdateTask",
             new { AssignedTo = assignedTo, TodoId = todoId, Task = task },
             "Default");
     }
@@ -50,7 +50,7 @@ public class TodoData : ITodoData
     public Task CompleteTodo(int assignedTo, int todoId)
     {
         return _sql.SaveData<dynamic>(
-            "dbo.spTodo_CompleteTodo",
+            "dbo.spTodos_CompleteTodo",
             new { AssignedTo = assignedTo, TodoId = todoId },
             "Default");
     }
@@ -58,7 +58,7 @@ public class TodoData : ITodoData
     public Task Delete(int assignedTo, int todoId)
     {
         return _sql.SaveData<dynamic>(
-            "dbo.spTodo_Delete",
+            "dbo.spTodos_Delete",
             new { AssignedTo = assignedTo, TodoId = todoId },
             "Default");
     }
