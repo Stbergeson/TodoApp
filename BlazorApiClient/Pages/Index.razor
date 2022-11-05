@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using System.Net.Http.Json
+@using System.Text.RegularExpressions
 @inject IHttpClientFactory factory
 @inject TokenModel tokenInfo
 
@@ -13,7 +14,9 @@
 else
 {
      <h1>Please Login</h1>
-
+     <div class="h3 text-danger">
+         @errorMessage
+     </div>
     <EditForm Model="login" OnValidSubmit="HandleValidSubmit">
         <InputText @bind-Value="login.UserName"/>
         <InputText type="password" @bind-Value="login.Password"/>
@@ -26,6 +29,7 @@ else
 @code{
     private AuthenticationModel login = new();
     private bool isLoggedIn = false;
+    private string errorMessage;
 
     protected override void OnInitialized()
     {
@@ -34,11 +38,23 @@ else
 
     private async void HandleValidSubmit()
     {
+        errorMessage = "";
         var client = factory.CreateClient("api");
 
         var info = await client.PostAsJsonAsync<AuthenticationModel>("Authentication/token", login);
         tokenInfo.Token = await info.Content.ReadAsStringAsync();
-        isLoggedIn = true;
+
+        Match m = Regex.Match(tokenInfo.Token, ".*\"title\":\"Unauthorized\",\"status\":401.*");
+
+        if(m.Success)
+        {
+            errorMessage = "Invalid Login Attempt;";
+        }
+        else
+        {
+            isLoggedIn = true;
+        }
+
 
         await InvokeAsync(StateHasChanged);
     }
