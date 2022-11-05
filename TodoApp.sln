@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoLibrary", "TodoLibrary\TodoLibrary.csproj", "{F5E85EC6-1BD6-452C-ADEF-FFB704C03C98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoLibrary", "TodoLibrary\TodoLibrary.csproj", "{F5E85EC6-1BD6-452C-ADEF-FFB704C03C98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApi", "TodoApi\TodoApi.csproj", "{2CC20B12-FC85-4794-A26C-05A4A66F69ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoApi", "TodoApi\TodoApi.csproj", "{2CC20B12-FC85-4794-A26C-05A4A66F69ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApiClient", "BlazorApiClient\BlazorApiClient.csproj", "{22D88476-D797-44CB-B90F-6EF7972E1325}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{2CC20B12-FC85-4794-A26C-05A4A66F69ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CC20B12-FC85-4794-A26C-05A4A66F69ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CC20B12-FC85-4794-A26C-05A4A66F69ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22D88476-D797-44CB-B90F-6EF7972E1325}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22D88476-D797-44CB-B90F-6EF7972E1325}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22D88476-D797-44CB-B90F-6EF7972E1325}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22D88476-D797-44CB-B90F-6EF7972E1325}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
