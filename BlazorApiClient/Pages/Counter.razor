@@ -15,8 +15,12 @@
     </div>
 }
 
+<EditForm Model="newTodo" OnValidSubmit="CreateTodoOnValidSubmit">
+    <InputText required @bind-Value="newTodo.Task" />
+    <button class="btn btn-success" type="submit">Create</button>
+</EditForm>
 
-<button class="btn btn-primary" @onclick="FetchTodos">Get ToDo List</button>
+<button class="btn btn-primary" @onclick="FetchTodos">Refresh List</button>
 
 @if (todos != null)
 {
@@ -26,6 +30,8 @@
         {
             <div class="h2">
                 @t.Task (Completed)
+                <button class="btn btn-sm btn-danger"
+                    @onclick="() => DeleteTodo(t)">DELETE</button>
             </div>
         }
         else
@@ -34,25 +40,37 @@
                 @t.Task
                 <button class="btn btn-sm btn-primary"
                     @onclick="() => CompleteTodo(t)">Complete</button>
+                <button class="btn btn-sm btn-danger"
+                    @onclick="() => DeleteTodo(t)">DELETE</button>
+                
             </div>
         }
+
+        
     }
 }
 
 @code {
     private List<TodoModel>? todos;
+    private TodoModel newTodo = new();
     private HttpClient? client;
-    private string errorMessage;
+    private string? errorMessage;
+
+    protected override void OnInitialized()
+    {
+
+        client = factory.CreateClient("api");
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenInfo.Token);
+        FetchTodos();
+    }
+
 
     private async void FetchTodos()
     {
         errorMessage = "";
-        client = factory.CreateClient("api");
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenInfo.Token);
-
         try
         {
-            todos = await client.GetFromJsonAsync<List<TodoModel>>("Todos");
+            todos = await client!.GetFromJsonAsync<List<TodoModel>>("Todos");
         }
         catch (Exception ex)
         {
@@ -67,5 +85,26 @@
         await client!.PutAsJsonAsync<string>($"Todos/{todo.Id}/Complete", "");
         todo.IsComplete = true;
         await InvokeAsync(StateHasChanged);
+    }
+
+    private async void DeleteTodo(TodoModel todo)
+    {
+        await client!.DeleteAsync($"Todos/{todo.Id}");
+        todos!.Remove(todo);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async void CreateTodoOnValidSubmit()
+    {
+        errorMessage = "";
+        try{
+            var resp = await client!.PostAsJsonAsync<string>("Todos", newTodo.Task!);
+        }
+        catch(Exception ex){
+            errorMessage = ex.Message;
+        }
+        newTodo = new();
+        FetchTodos();
+
     }
 }
